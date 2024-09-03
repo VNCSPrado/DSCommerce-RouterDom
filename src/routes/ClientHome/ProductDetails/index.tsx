@@ -2,16 +2,25 @@ import './styles.css';
 
 import ButtonInverse from '../../../components/ButtonInverse';
 import ButtonPrimary from '../../../components/ButtonPrimary';
-import HeaderClient from '../../../components/HeaderClient';
+
 import ProductDetailsCard from '../../../components/ProductDetailsCard';
 import { ProductDTO } from '../../../models/product';
-import * as productService from '../../../services/product-service';
+import * as productService from './../../../services/product-service';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function ProductDetails() {
   const params = useParams();
-  const product = productService.findById(Number(params.productId));
+
+  const [product, setProduct] = useState<ProductDTO>();
+
+  useEffect(() => {
+    productService.findById(Number(params.productId)).then((response) => {
+      console.log(response);
+      setProduct(response.data);
+    });
+  }, []);
 
   return (
     <>
